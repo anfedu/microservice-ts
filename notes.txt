@@ -1,0 +1,5 @@
+source : https://www.youtube.com/watch?v=vTzLE66Y4qQ&list=PLnTRniWXnjf8QRhvnklsyapGfFZ6ACdSf&index=12
+part : 12
+minutes : 13:15
+
+Thankyou. oya itu singkatan Trusted Web Activity. agar supaya aplikasi web bisa jadi aplikasi android mirip mirip webview
