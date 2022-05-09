@@ -22,16 +22,10 @@ const server = async () => {
   const app = express();
   app.use(cookieParser());
 
-  // app.use(
-  //   cors({
-  //     credentials: true,
-  //     origin: (origin, cb) => cb(null, true),
-  //   })
-  // );
-
   app.use(
     cors({
-      credentials: true,
+      // credentials: true,
+      credentials: false,
       origin: (origin, cb) => cb(null, true),
     })
   );
