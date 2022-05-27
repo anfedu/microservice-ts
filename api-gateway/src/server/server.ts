@@ -24,8 +24,7 @@ const server = async () => {
 
   app.use(
     cors({
-      // credentials: true,
-      credentials: false,
+      credentials: true,
       origin: (origin, cb) => cb(null, true),
     })
   );
@@ -35,8 +34,8 @@ const server = async () => {
 
   apolloServer.applyMiddleware({
     app,
-    cors: { credentials: true, origin: "https://studio.apollographql.com" },
-    path: "/graphql",
+    cors: { credentials: true, origin: "http://localhost:7003" }, // origin is url for client
+    path: "/graphql", // path for server
   });
 
   app.listen(PORT, "0.0.0.0", () =>
