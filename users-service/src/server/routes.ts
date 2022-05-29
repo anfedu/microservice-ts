@@ -86,7 +86,9 @@ const setupRoutes = (app: Express) => {
         req.params.sessionId
       );
 
-      if (!userSession) return next(new Error("Invalid session ID"));
+      if (!userSession) return res.status(404).end();
+
+      // if (!userSession) return next(new Error("Invalid session ID"));
 
       return res.json(userSession);
     } catch (error) {
