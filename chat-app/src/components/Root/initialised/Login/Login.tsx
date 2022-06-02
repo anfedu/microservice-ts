@@ -7,9 +7,10 @@ import {
   Button,
   Intent,
 } from "@blueprintjs/core";
+import { useForm } from "react-hook-form";
+import { gql, useMutation } from "@apollo/client";
 import styled from "styled-components";
 import useGenerateId from "#root/utils/hooks/form/useGenerateId";
-import { useForm } from "react-hook-form";
 
 interface FormData {
   username: string;
@@ -39,11 +40,28 @@ const LargeFormGroup = styled(FormGroup)`
   }
 `;
 
+const mutation = gql`
+  mutation ($password: String!, $username: String!) {
+    createUserSession(password: $password, username: $username) {
+      user {
+        username
+      }
+    }
+  }
+`;
+
 function Login({}) {
   const { register, handleSubmit } = useForm<FormData>();
+  const [createUserSession] = useMutation(mutation);
   const generateId = useGenerateId();
 
-  const onSubmit = ({ username, password }: FormData) => {};
+  const onSubmit = async ({ password, username }: FormData) => {
+    const result = await createUserSession({
+      variables: { password, username },
+    });
+
+    console.log(result, "<--- iki result ne ");
+  };
 
   return (
     <Wrapper>

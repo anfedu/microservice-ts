@@ -23,10 +23,10 @@
     "normalize.css": "^8.0.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-hook-form": "^7.31.3",
     "react-router-dom": "5",
     "recoil": "^0.7.2",
-    "styled-components": "^5.3.5"
+    "styled-components": "^5.3.5",
+    "react-hook-form": "7.12.0"
   },
   "alias": {
     "#root": "./src",
