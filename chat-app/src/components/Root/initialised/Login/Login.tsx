@@ -10,7 +10,11 @@ import {
 import { useForm } from "react-hook-form";
 import { gql, useMutation } from "@apollo/client";
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
+
+import userSessionAtom from "#root/recoil/atoms/userSession";
 import useGenerateId from "#root/utils/hooks/form/useGenerateId";
+import toaster from "#root/utils/msc/toaster";
 
 interface FormData {
   username: string;
@@ -51,16 +55,25 @@ const mutation = gql`
 `;
 
 function Login({}) {
-  const { register, handleSubmit } = useForm<FormData>();
+  const { formState, register, handleSubmit } = useForm<FormData>();
   const [createUserSession] = useMutation(mutation);
   const generateId = useGenerateId();
+  const [, setUserSession] = useRecoilState(userSessionAtom);
 
   const onSubmit = async ({ password, username }: FormData) => {
-    const result = await createUserSession({
-      variables: { password, username },
-    });
+    try {
+      const result = await createUserSession({
+        variables: { password, username },
+      });
 
-    console.log(result, "<--- iki result ne ");
+      if (result.data.createUserSession)
+        setUserSession(result.data.createUserSession);
+    } catch (error) {
+      toaster.show({
+        intent: Intent.DANGER,
+        message: "Something went wront please try again",
+      });
+    }
   };
 
   return (
@@ -71,6 +84,7 @@ function Login({}) {
           <LargeFormGroup label="Username" labelFor={generateId("username")}>
             <InputGroup
               autoFocus
+              disabled={formState.isSubmitting}
               large
               id={generateId("username")}
               {...register("username")}
@@ -79,12 +93,18 @@ function Login({}) {
           <LargeFormGroup label="Password" labelFor={generateId("password")}>
             <InputGroup
               large
+              disabled={formState.isSubmitting}
               type="password"
               id={generateId("password")}
               {...register("password")}
             />
           </LargeFormGroup>
-          <Button intent={Intent.PRIMARY} large type="submit">
+          <Button
+            intent={Intent.PRIMARY}
+            large
+            type="submit"
+            loading={formState.isSubmitting}
+          >
             Login
           </Button>
         </Card>
